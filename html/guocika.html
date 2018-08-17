@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>过词卡</title>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<link rel="stylesheet" href="../css/reset.css"/>
+<link rel="stylesheet" href="../css/style.css"/>
+<body>
+<div class="bodyCont">
+    <div class="mainCont">
+        <div class="top">
+            <span class="logo"><img src="../img/infant_logo.png" alt=""/></span>
+            <span class="bird"><img src="../img/bird.png" alt=""/></span>
+            <img src="../img/topBorder.png" alt="" class="topBorder"/>
+            <!--<button class="advance littleBtn">前进</button>-->
+            <button class="back littleBtn">后退</button>
+        </div>
+        <div class="middleOut">
+            <div class="loading">
+                <img src="../img/loading.png" alt=""/>
+            </div>
+            <div class="middleIn">
+                <div class="readTems">
+                    <!--<audio id="audio" src=""></audio>-->
+                    <div class="read_list">
+                    </div>
+                    <div class="temsCont">
+
+                    </div>
+                </div>
+                <div class="ducihui btn">读词汇</div>
+                <img src="../img/tree.png" alt="" class="tree"/>
+                <img src="../img/people_bg.png" alt="" class="people_bg"/>
+            </div>
+        </div>
+        <div class="cloud">
+            <span class="cloudTL"><img src="../img/cloud.png" alt=""/></span>
+            <span class="cloudTR"><img src="../img/cloud.png" alt=""/></span>
+            <span class="cloudBL"><img src="../img/cloud.png" alt=""/></span>
+            <span class="cloudBR"><img src="../img/cloud.png" alt=""/></span>
+        </div>
+    </div>
+    <div class="net" style="display: block">
+        <p>藻宝宝儿童教育工作室 联系方式：zaobaobao123@126.com</p>
+    </div>
+</div>
+<script src="../js/lib/jquery-1.11.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/util.js"></script>
+<!--
+<script src="../data/excleData/infant/infant_erge.js"></script>
+<script src="../data/excleData/child11/child11_erge.js"></script>
+<script src="../data/excleData/child16/child16_erge.js"></script>
+<script src="../data/excleData/infant/infant_cz.js"></script>
+<script src="../data/excleData/child11/child11_cz.js"></script>
+<script src="../data/excleData/child16/child16_cz.js"></script>
+-->
+<script>
+    $('.advance').click(function () {
+        window.location.href = ""
+    });
+    $('.back').click(function () {
+        window.location.href = "reform.html"
+    });
+    //    window.onload =function(){
+    var arrayIndex = 0;
+    var randomArray;//随机数组
+    var curDataCi = [];
+    var curUnit = window.localStorage.getItem('unit');
+
+    var scriptNum = 0;
+
+    function loadSprite(src) {
+        var _doc = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', src);
+        _doc.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
+                scriptNum++;
+                if (scriptNum == 12) {
+                    $('.loading').css('display', 'none');
+                    var version = window.localStorage.getItem("version");
+
+                    if (version == "infant") {
+                        var dataCi = infant_cz.infant_cz[curUnit - 1];
+                        dataCi.forEach(function (item, index) {
+                            if (item.ci !== '') {
+                                curDataCi.push(item)
+                            }
+                        });
+
+                    } else if (version == "child11") {
+                        var dataCi = child11_cz.child11_cz[curUnit - 1];
+                        dataCi.forEach(function (item, index) {
+                            if (item.ci !== '') {
+                                curDataCi.push(item)
+                            }
+                        });
+                    } else if (version == "child16") {
+                        var dataCi = child16_cz.child16_cz[curUnit - 1];
+                        dataCi.forEach(function (item, index) {
+                            if (item.ci !== '') {
+                                curDataCi.push(item)
+                            }
+                        });
+                    } else if (version == "child16_2") {
+                        var dataCi = child16_cz2.child16_cz2[curUnit - 1];
+                        dataCi.forEach(function (item, index) {
+                            if (item.ci !== '') {
+                                curDataCi.push(item)
+                            }
+                        });
+                    } else if (version == "child16_2_1") {
+                        var dataCi = child16_2_cz.child16_2_cz[curUnit - 1];
+                        dataCi.forEach(function (item, index) {
+                            if (item.ci !== '') {
+                                curDataCi.push(item)
+                            }
+                        });
+                    } else if (version == "child16_2_2") {
+                        var dataCi = child16_2_cz2.child16_2_cz2[curUnit - 1];
+                        dataCi.forEach(function (item, index) {
+                            if (item.ci !== '') {
+                                curDataCi.push(item)
+                            }
+                        });
+                    }
+
+
+                    util.bingCi(curDataCi);
+                    var shengCiNum = curDataCi.length;
+                    randomArray = util.randoms(shengCiNum);
+                    $(document).on("click", ".ducihui", function () {
+                        if (arrayIndex == shengCiNum) {//如果到后面没有词语了，则返回第一个词语
+                            dataIndex = 0;
+                        }
+                        var curCiArr = curDataCi[randomArray[arrayIndex]].ci.split("");
+                        var curCiStr = '';
+//                        console.log(curCiArr);
+                        curCiArr.forEach(function (item, index) {
+                            curCiStr += '<p>' + item + '</p>'
+                        });
+                        $(".temsCont").html(curCiStr);
+                        var theWidth = curCiArr.length * 200 + 'px';
+                        $(".temsCont").css("width", theWidth);
+                        arrayIndex++;
+                        if (arrayIndex == shengCiNum) {//一轮随机认句子完成，预备下一轮认句子
+                            setTimeout(function () {
+                                randomArray = util.randoms(shengCiNum);//重新生成一个随机数数组
+                                arrayIndex = 0;
+                            }, 1600);
+                        }
+                    });
+                    $(document).on("click", ".read_list i", function () {
+                        var index = $(this).attr("data-id");
+                        var curText = $(this).text();
+
+                        var curCiArr = curText.split("");
+                        var curCiStr = '';
+                        curCiArr.forEach(function (item, index) {
+                            curCiStr += '<p>' + item + '</p>'
+                        });
+                        $(".temsCont").html(curCiStr);
+                        var theWidth = curCiArr.length * 200 + 'px';
+                        $(".temsCont").css("width", theWidth);
+                    });
+                }
+                /*else{
+                                 $('.loading').css('display','block');
+                                 }*/
+            }
+            script.onload = script.onreadystatechange = null;
+        };
+    }
+
+    loadSprite('../data/excleData/child16/child16_erge2.js');
+    loadSprite('../data/excleData/infant/infant_erge.js');
+    loadSprite('../data/excleData/child11/child11_erge.js');
+    loadSprite('../data/excleData/child16/child16_erge.js');
+    loadSprite('../data/excleData/child16/child16_2_erge.js');
+    loadSprite('../data/excleData/child16/child16_2_erge2.js');
+
+    loadSprite('../data/excleData/child16/child16_cz2.js');
+    loadSprite('../data/excleData/infant/infant_cz.js');
+    loadSprite('../data/excleData/child11/child11_cz.js');
+    loadSprite('../data/excleData/child16/child16_cz.js');
+    loadSprite('../data/excleData/child16/child16_2_cz.js');
+    loadSprite('../data/excleData/child16/child16_2_cz2.js');
+
+    //    };
+</script>
+</body>
+</html>

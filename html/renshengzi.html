@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8"/>
+	<title>认生字</title>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<link rel="stylesheet" href="../css/reset.css"/>
+<link rel="stylesheet" href="../css/style.css"/>
+<body>
+<div class="bodyCont">
+	<div class="mainCont">
+		<div class="top">
+			<span class="logo"><img src="../img/infant_logo.png" alt=""/></span>
+			<span class="bird"><img src="../img/bird.png" alt=""/></span>
+			<img src="../img/topBorder.png" alt="" class="topBorder"/>
+			<!--<button class="advance littleBtn">前进</button>-->
+			<button class="back littleBtn">后退</button>
+		</div>
+		<div class="middleOut">
+			<div class="loading">
+				<img src="../img/loading.png" alt=""/>
+			</div>
+			<div class="middleIn">
+				<div class="ergeCont" style="display: block">
+					<audio id="audio" src="../data/mp3/infant/1_c.mp3"></audio>
+					<div id="main"></div>
+					<p class="bofang btn"><i style="margin-right: 3px;"><img src="../img/flower.png" alt=""/></i><span>跟读生字</span></p>
+					<p class="renshengzi btn"><i style="margin-right: 3px;"><img src="../img/flower.png" alt=""/></i><i><img src="../img/flower.png" alt=""/></i><span>认生字</span></p>
+				</div>
+				<img src="../img/tree.png" alt="" class="tree"/>
+				<img src="../img/people_bg.png" alt="" class="people_bg"/>
+			</div>
+		</div>
+		<div class="cloud">
+			<span class="cloudTL"><img src="../img/cloud.png" alt=""/></span>
+			<span class="cloudTR"><img src="../img/cloud.png" alt=""/></span>
+			<span class="cloudBL"><img src="../img/cloud.png" alt=""/></span>
+			<span class="cloudBR"><img src="../img/cloud.png" alt=""/></span>
+		</div>
+	</div>
+	<div class="net" style="display: block">
+		<p>藻宝宝儿童教育工作室 联系方式：zaobaobao123@126.com</p>
+	</div>
+</div>
+<script src="../js/lib/jquery-1.11.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/util.js"></script>
+
+<!--
+<script src="../data/excleData/infant/infant_erge.js"></script>
+<script src="../data/excleData/child11/child11_erge.js"></script>
+<script src="../data/excleData/child16/child16_erge.js"></script>
+<script src="../data/excleData/infant/infant_cz.js"></script>
+<script src="../data/excleData/child11/child11_cz.js"></script>
+<script src="../data/excleData/child16/child16_cz.js"></script>
+-->
+<script>
+	$('.advance').click(function(){
+		window.location.href=""
+	});
+	$('.back').click(function(){
+		window.location.href="reform.html"
+	});
+	var scriptNum=0;
+	var curUnit = window.localStorage.getItem('unit');
+	var randomArray;//随机数组
+	var readInterval;//朗读全文定时器
+	var curZi = [];
+	var dataIndex = 0;
+	var isPlay = false;
+
+	function loadSprite(src){
+		var _doc=document.getElementsByTagName('head')[0];
+		var script=document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		script.setAttribute('src',src);
+		_doc.appendChild(script);
+		script.onload=script.onreadystatechange=function(){
+			if(!this.readyState||this.readyState=='loaded'||this.readyState=='complete'){
+				scriptNum++;
+				if(scriptNum==12){
+//					$('.loading').css('display','none');
+					var version = window.localStorage.getItem("version");
+					if (version == "infant") {
+						var curMp3 = '../data/mp3/infant/' + curUnit + '_c.mp3';
+						var curData = erge1Data.zao_erge1[curUnit - 1];
+
+						infant_cz.infant_cz[curUnit - 1].forEach(function (item) {
+							if (item.lei == "1" && item.zi !== "") {
+								curZi.push(item);
+							}
+						});
+
+					} else if (version == "child11") {
+						var curMp3 = '../data/mp3/child11/' + curUnit + '_c.mp3';
+						var curData = child11_erge.child11_erge[curUnit - 1];
+
+						child11_cz.child11_cz[curUnit - 1].forEach(function (item) {
+							if (item.lei == "1" && item.zi !== "") {
+								curZi.push(item);
+							}
+						});
+
+					} else if (version == "child16") {
+						var curMp3 = '../data/mp3/child16/' + curUnit + '_c.mp3';
+						var curData = child16_erge.child16_erge[curUnit - 1];
+						child16_cz.child16_cz[curUnit - 1].forEach(function (item) {
+							if (item.lei == "1" && item.zi !== "") {
+								curZi.push(item);
+							}
+						});
+					} else if (version == "child16_2") {
+						var curMp3 = '../data/mp3/child16_2/' + curUnit + '_c.mp3';
+						var curData = child16_erge2.child16_erge2[curUnit - 1];
+						child16_cz2.child16_cz2[curUnit - 1].forEach(function (item) {
+							if (/*item.lei == "1" && */item.zi !== "") {
+								curZi.push(item);
+							}
+						});
+					}else if (version == "child16_2_1") {
+                        var curMp3 = '../data/mp3/child16_2_1/' + curUnit + '_c.mp3';
+                        var curData = child16_2_erge.child16_2_erge[curUnit - 1];
+                        child16_2_cz.child16_2_cz[curUnit - 1].forEach(function (item) {
+                            if ( item.zi !== "") {
+
+                                curZi.push(item);
+                            }
+                        });
+                    }else if (version == "child16_2_2") {
+                        var curMp3 = '../data/mp3/child16_2_2/' + curUnit + '_c.mp3';
+                        var curData = child16_2_erge2.child16_2_erge2[curUnit - 1];
+                        child16_2_cz2.child16_2_cz2[curUnit - 1].forEach(function (item) {
+                            if (item.zi !== "") {
+                                curZi.push(item);
+                            }
+                        });
+                    }
+
+					//处理数据，使标题行的首尾字加上ju_kai和ju_jie数据
+					for(var i = 0; i < curData.length; i++){
+						if(i==0) {
+							curData[i].ju_kai=curData[i].zi_kai;
+						}else if(curData[i].ju_kai!==""){
+							curData[i-1].ju_jie=curData[i-1].zi_jie;
+							break;
+						}
+					}
+
+					var audio = $("#audio")[0];
+					var arrayIndex = 0;
+
+					$("#audio").attr("src", curMp3);
+					var audioNum=0;
+					$("#audio").onloadedmetadata=audioNum++;
+					if(audioNum==1){
+						$(".loading").css('display', 'none');
+					}
+
+					util.bindErge_Zhi_ren(curData, curZi);
+					var newWordsNum = $(".newWords").length;
+					randomArray = util.randoms(newWordsNum);
+					$(document).on("click", ".renshengzi", function () {
+						dataIndex = 0;
+						var theObj = $(".newWords");
+						var theClass = "theFont";
+						util.randomColor(arrayIndex, theObj, theClass,8);
+						arrayIndex++;
+						if (arrayIndex == newWordsNum) {
+							setTimeout(function () {
+								randomArray = util.randoms(newWordsNum);
+								arrayIndex = 0;
+							}, 1600);
+						};
+						//如果正在读全文，点击认句子，则停止读全文
+						if (!audio.paused) {
+							audio.pause();
+							clearInterval(readInterval);
+							$(".bofang span").text("跟读生字");
+							audio.currentTime = 0;
+						}
+					});
+					$(document).on("click", ".bofang", function () {
+						if (isPlay) {
+							return;
+						}//如果mp3正在播放，则不再执行其他操作
+						$("#main").find($(".newWords")).removeClass("theFont");
+						console.log(curZi)
+						var zi_kai = parseFloat(curZi[dataIndex].zi_kai);
+						var zi_jie = parseFloat(curZi[dataIndex].zi_jie);
+						if(dataIndex>7&&navigator.userAgent.indexOf('Trident')>-1&&window.localStorage.getItem("fun_item")=="renshengzi.html"&&window.localStorage.getItem("unit")==10&&window.localStorage.getItem("version")=="child16"){
+							if(dataIndex==8) {
+								zi_kai = parseFloat(curZi[dataIndex].zi_kai);
+								zi_jie = parseFloat(curZi[dataIndex].zi_jie)+0.2;
+							}else if(dataIndex==9){
+								zi_kai = parseFloat(curZi[dataIndex].zi_kai)+0.2;
+								zi_jie = parseFloat(curZi[dataIndex].zi_jie);
+							}else if(dataIndex==11){
+								zi_kai = parseFloat(curZi[dataIndex].zi_kai)-0.1;
+								zi_jie = parseFloat(curZi[dataIndex].zi_jie)+0.3;
+							}else if(dataIndex==12){
+								zi_kai = parseFloat(curZi[dataIndex].zi_kai)+0.2;
+								zi_jie = parseFloat(curZi[dataIndex].zi_jie)+0.4;
+							}
+						}
+						audio.currentTime = zi_kai;
+						audio.play();
+						isPlay = true;
+						$("#main").find($(".newWords")).each(function () {
+							var sentNum=$(this).parent().index();
+							if ($(this).attr('index') == dataIndex && sentNum>=8&& window.document.body.offsetHeight < 870 && $('.sentence').length >= 7) {
+								$(this).addClass("theFont");
+								$('.middleIn').scrollTop(500);
+							} else if ($(this).attr('index') == dataIndex) {
+								$(this).addClass("theFont");
+								$('.middleIn').scrollTop(0);
+							} else {
+								$(this).removeClass("theFont");
+							}
+						});
+						dataIndex++;
+						setTimeout(function () {
+							isPlay = false;
+							if (dataIndex < curZi.length) {
+								audio.pause();
+							} else {
+								audio.currentTime = audio.duration;
+								dataIndex = 0;
+							}
+
+						}, (zi_jie - zi_kai) * 1000);
+					});
+				}/*else{
+					$('.loading').css('display','block');
+				}*/
+			}
+			script.onload=script.onreadystatechange=null;
+		};
+	}
+	loadSprite('../data/excleData/child16/child16_erge2.js');
+	loadSprite('../data/excleData/infant/infant_erge.js');
+	loadSprite('../data/excleData/child11/child11_erge.js');
+	loadSprite('../data/excleData/child16/child16_erge.js');
+    loadSprite('../data/excleData/child16/child16_2_erge.js');
+    loadSprite('../data/excleData/child16/child16_2_erge2.js');
+
+	loadSprite('../data/excleData/child16/child16_cz2.js');
+	loadSprite('../data/excleData/infant/infant_cz.js');
+	loadSprite('../data/excleData/child11/child11_cz.js');
+	loadSprite('../data/excleData/child16/child16_cz.js');
+    loadSprite('../data/excleData/child16/child16_2_cz.js');
+    loadSprite('../data/excleData/child16/child16_2_cz2.js');
+
+</script>
+</body>
+</html>

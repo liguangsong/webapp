@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>藻宝宝</title>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<link rel="stylesheet" href="../css/reset.css"/>
+<link rel="stylesheet" href="../css/style.css"/>
+<body>
+<div class="bodyCont">
+    <div class="indexPage">
+        <div class="top">
+            <span class="fl"><img src="../img/logo.png" alt=""/></span>
+            <button class="advance littleBtn">前进</button>
+            <button class="back littleBtn">后退</button>
+        </div>
+        <div class="cloud">
+            <span class="cloudTL"><img src="../img/cloud.png" alt=""/></span>
+            <span class="cloudTR"><img src="../img/cloud.png" alt=""/></span>
+            <span class="cloudBL"><img src="../img/cloud.png" alt=""/></span>
+            <span class="cloudBR"><img src="../img/cloud.png" alt=""/></span>
+        </div>
+        <ul class="middle">
+            <li version="infant">
+                <a href="catalog_infant.html" target="_self">
+                    <img src="../img/infant.png" alt="" class="infant"/>
+                </a>
+                <p>藻宝宝幼儿阅读识字</p>
+            </li>
+            <!--<li version="child11">-->
+                <!--<a href="catalog_child11.html" target="_self">-->
+                   <!--<img src="../img/child11.png" alt="" class="child11"/>-->
+                <!--</a>-->
+                <!--<p>小学语文识字助手（人教版）2011年版小学语文一年级上册</p>-->
+            <!--</li>-->
+            <li  version="child16">
+                <a href="catalog_child11.html" target="_self">
+                    <img src="../img/child16.png" alt="" class="infant"/>
+                </a>
+                <p>小学语文识字助手（部编）2016年版小学语文一年级上册</p>
+            </li>
+            <li version="child16_2">
+                <a href="catalog_child11.html" target="_self">
+                    <img src="../img/child16_2.png" alt="" class="child11"/>
+                </a>
+                <p>小学语文识字助手（部编）2016年版小学语文一年级下册</p>
+            </li>
+
+            <li version="child16_2_1">
+                <a href="catalog_child11.html" target="_self">
+                    <img src="../img/child16_2_1.jpg" alt="" class="child16"/>
+                </a>
+                <p>小学语文识字助手（部编）2016年版小学语文二年级上册</p>
+            </li>
+
+            <li version="child16_2_2">
+                <a href="catalog_child11.html" target="_self">
+                    <img src="../img/child16_2_2.jpg" alt="" class="child16_2"/>
+                </a>
+                <p>小学语文识字助手（部编）2016年版小学语文二年级下册</p>
+            </li>
+            <div class="clearfloat"></div>
+        </ul>
+
+    </div>
+    <div class="bottom">
+        <img src="../img/slogan.png" alt=""/>
+    </div>
+    <div class="net" style="display: block">
+        <p>藻宝宝儿童教育工作室 联系方式：zaobaobao123@126.com</p>
+    </div>
+</div>
+<script src="../js/lib/jquery-1.11.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/util.js"></script>
+<!--
+<script src="../data/excleData/infant/infant_erge.js"></script>
+-->
+<script>
+    var version=window.localStorage.getItem("version");
+    if(!version){
+        $(".advance").css({'background':'#ccc','cursor':'default'});
+        $(".advance").attr('disabled','disabled')
+    }else{
+        $(".advance").css('display','block');
+        $('.advance').click(function(){
+            if(version=="infant"){
+                window.location.href="catalog_infant.html";
+            }else{
+                window.location.href="catalog_child11.html";
+            }
+        });
+    }
+    $('.middle li').click(function(){
+        window.localStorage.setItem('version',$(this).attr('version'))
+    });
+    $('.back').click(function(){
+        window.location.href="../index.html"
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>藻宝宝</title>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<link rel="stylesheet" href="../css/reset.css"/>
+<link rel="stylesheet" href="../css/style.css"/>
+<body>
+<div class="bodyCont">
+    <div class="censorship">
+        <div class="choose">
+            <button class="advance littleBtn">前进</button>
+            <button class="back littleBtn">后退</button>
+            <button class="unitInfo">第一单元 小丫丫做蚂蚱</button>
+            <img src="../img/topBorder.png" alt="" class="borderCase">
+            <a id="close" href=""><img src="../img/close.png" alt="" class="close"></a>
+            <div class="cataLog">
+                <div style="top:0%;left: 10%">
+                    <a href="renjuzi.html">
+                        <dl>
+                            <dt class="catalogImg"><img src="../img/read1.png" alt=""></dt>
+                            <dd class="catalogFont">读儿歌认句子</dd>
+                        </dl>
+                    </a>
+                    <p>
+                        <img src="../img/nextStep.png" alt="" class=""/>
+                    </p>
+
+                </div>
+
+                <div style="top:0%;left: 38%">
+                    <a href="renshengci.html">
+                        <dl>
+                            <dt class="catalogImg"><img src="../img/read2.png" alt=""></dt>
+                            <dd class="catalogFont">读儿歌认生词</dd>
+                        </dl>
+                    </a>
+                    <p>
+                        <img src="../img/nextStep.png" alt="" class=""/>
+                    </p>
+                </div>
+                <div style="top:0%;left: 66%">
+                    <a href="renshengzi.html">
+                        <dl>
+                            <dt class="catalogImg"><img src="../img/read3.png" alt=""></dt>
+                            <dd class="catalogFont">读儿歌认生字</dd>
+                        </dl>
+                    </a>
+                    <p>
+                        <img src="../img/nextStep.png" alt="" class=""/>
+                    </p>
+                </div>
+                <div style="top:50%;left: 10%">
+                    <a href="guocika.html">
+                        <dl>
+                            <dt class="catalogImg"><img src="../img/read4.png" alt=""></dt>
+                            <dd class="catalogFont">过词卡</dd>
+                        </dl>
+                    </a>
+                    <p>
+                        <img src="../img/nextStep.png" alt="" class=""/>
+                    </p>
+                </div>
+                <div style="top:50%;left: 38%">
+                    <a href="guozika.html">
+                        <dl>
+                            <dt class="catalogImg"><img src="../img/read5.png" alt=""></dt>
+                            <dd class="catalogFont">过字卡</dd>
+                        </dl>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="net" style="display: block">
+        <p>藻宝宝儿童教育工作室 联系方式：zaobaobao123@126.com</p>
+    </div>
+</div>
+<script src="../js/lib/jquery-1.11.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/util.js"></script>
+<!--
+<script src="../data/excleData/infant/infant_erge.js"></script>
+-->
+<script>
+    var fun_item=window.localStorage.getItem("fun_item");
+    var unitInfo=window.localStorage.getItem("unitInfo");
+    $('.unitInfo').html(unitInfo);
+    if(!fun_item){
+        $(".advance").css({'background':'#ccc','cursor':'default'});
+        $(".advance").attr('disabled','disabled')
+    }else{
+        $('.advance').click(function(){
+            window.location.href=fun_item;
+        });
+    }
+
+    var version=window.localStorage.getItem("version");
+    $('.back').click(function(){
+        if(version=="infant"){
+            window.location.href="catalog_infant.html";
+        }else {
+            window.location.href="catalog_child11.html";
+        }
+    });
+
+    $(".cataLog a").click(function(){
+        window.localStorage.setItem('fun_item',$(this).attr('href'))
+    });
+    $(function(){
+        var version=window.localStorage.getItem("version");
+        if(version=="infant"){
+            $("#close").attr("href","catalog_infant.html")
+        }else {
+            $("#close").attr("href","catalog_child11.html")
+        }
+    })
+</script>
+</body>
+</html>
